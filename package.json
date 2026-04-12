@@ -18,12 +18,18 @@
     "gridfs-stream": "^1.1.1",
     "helmet": "^7.1.0",
     "mongoose": "^8.4.1",
-    "multer": "^1.4.5-lts.1",
+    "multer": "1.4.5-lts.1",
     "multer-gridfs-storage": "^5.0.2",
     "node-cron": "^3.0.3",
     "openai": "^4.52.1",
     "pdf-parse": "^2.4.5",
     "uuid": "^10.0.0"
+  },
+  "overrides": {
+    "multer": "1.4.5-lts.1"
+  },
+  "engines": {
+    "node": "18.x"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

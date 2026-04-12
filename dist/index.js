@@ -8,6 +8,12 @@ const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
+console.log("🔍 ENV CHECK START");
+console.log("MONGO_URI:", process.env.MONGO_URI ? "OK ✅" : "MISSING ❌");
+console.log("FIREBASE_PROJECT_ID:", process.env.FIREBASE_PROJECT_ID ? "OK ✅" : "MISSING ❌");
+console.log("FIREBASE_CLIENT_EMAIL:", process.env.FIREBASE_CLIENT_EMAIL ? "OK ✅" : "MISSING ❌");
+console.log("FIREBASE_PRIVATE_KEY:", process.env.FIREBASE_PRIVATE_KEY ? "OK ✅" : "MISSING ❌");
+console.log("🔍 ENV CHECK END");
 const db_1 = require("./config/db");
 const firebase_1 = require("./config/firebase");
 const gridfs_1 = require("./config/gridfs");
@@ -32,18 +38,7 @@ console.log('------------------------');
 // Security & parsing
 app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)({
-    origin: (origin, callback) => {
-        // Allow requests from any localhost port (for development flexibility)
-        const allowed = !origin || /^http:\/\/localhost:\d+$/.test(origin);
-        if (allowed) {
-            callback(null, true);
-        }
-        else {
-            console.warn(`CORS blocked origin: ${origin}`);
-            callback(new Error(`CORS: Origin ${origin} not allowed`));
-        }
-    },
-    credentials: true,
+    origin: "*",
 }));
 app.use(express_1.default.json({ limit: '50mb' }));
 app.use(express_1.default.urlencoded({ extended: true, limit: '50mb' }));
@@ -62,9 +57,12 @@ app.use('/api/seed', seed_1.default);
 app.get('/api/health', (_req, res) => {
     res.json({ status: 'ok', service: 'NyayaSetu API', timestamp: new Date() });
 });
+app.get('/', (_req, res) => {
+    res.send('NyayaSetu Backend Running 🚀');
+});
 // Firebase Admin is initialised early since auth middleware needs it.
 (0, firebase_1.initFirebaseAdmin)();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 (0, db_1.connectDB)().then(async () => {
     // Initialize GridFS after DB is connected
     (0, gridfs_1.initGridFS)();
