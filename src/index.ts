@@ -33,25 +33,7 @@ console.log('------------------------');
 // Security & parsing
 app.use(helmet());
 app.use(cors({
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      process.env.FRONTEND_URL, // Vercel frontend
-    ];
-
-    // Allow localhost (for dev)
-    if (!origin || /^http:\/\/localhost:\d+$/.test(origin)) {
-      return callback(null, true);
-    }
-
-    // Allow production frontend
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    console.warn(`CORS blocked origin: ${origin}`);
-    callback(new Error(`CORS: Origin ${origin} not allowed`));
-  },
-  credentials: true,
+  origin: "*",
 }));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
@@ -73,9 +55,13 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', service: 'NyayaSetu API', timestamp: new Date() });
 });
 
+app.get('/', (_req, res) => {
+  res.send('NyayaSetu Backend Running 🚀');
+});
+
 // Firebase Admin is initialised early since auth middleware needs it.
 initFirebaseAdmin();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 connectDB().then(async () => {
   // Initialize GridFS after DB is connected
