@@ -5,6 +5,15 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+console.log("🔍 ENV CHECK START");
+
+console.log("MONGO_URI:", process.env.MONGO_URI ? "OK ✅" : "MISSING ❌");
+console.log("FIREBASE_PROJECT_ID:", process.env.FIREBASE_PROJECT_ID ? "OK ✅" : "MISSING ❌");
+console.log("FIREBASE_CLIENT_EMAIL:", process.env.FIREBASE_CLIENT_EMAIL ? "OK ✅" : "MISSING ❌");
+console.log("FIREBASE_PRIVATE_KEY:", process.env.FIREBASE_PRIVATE_KEY ? "OK ✅" : "MISSING ❌");
+
+console.log("🔍 ENV CHECK END");
+
 import { connectDB } from './config/db';
 import { initFirebaseAdmin } from './config/firebase';
 import { initGridFS } from './config/gridfs';
