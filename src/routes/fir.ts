@@ -10,7 +10,7 @@ import { findSimilarCases } from '../agents/precedentAgent';
 import { generateCaseNumber } from '../utils/generateUID';
 import { auditLogger } from '../utils/auditLogger';
 import { uploadToGridFS } from '../config/gridfs';
-const pdfParse = require('pdf-parse');
+
 
 const router = Router();
 
@@ -35,7 +35,9 @@ router.post(
     if (!firText) {
       if (file.mimetype === 'application/pdf') {
         try {
+          const pdfParse = (await import('pdf-parse')).default;
           const pdfData = await pdfParse(file.buffer);
+          
           firText = pdfData.text;
         } catch (e) {
           console.error('PDF parsing error:', e);
