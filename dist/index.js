@@ -9,7 +9,7 @@ const helmet_1 = __importDefault(require("helmet"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 console.log("🔍 ENV CHECK START");
-console.log("MONGODB_URI:", process.env.MONGO_URI ? "OK ✅" : "MISSING ❌");
+console.log("MONGODB_URI:", process.env.MONGODB_URI ? "OK ✅" : "MISSING ❌");
 console.log("FIREBASE_PROJECT_ID:", process.env.FIREBASE_PROJECT_ID ? "OK ✅" : "MISSING ❌");
 console.log("FIREBASE_CLIENT_EMAIL:", process.env.FIREBASE_CLIENT_EMAIL ? "OK ✅" : "MISSING ❌");
 console.log("FIREBASE_PRIVATE_KEY:", process.env.FIREBASE_PRIVATE_KEY ? "OK ✅" : "MISSING ❌");
