@@ -15,7 +15,7 @@ const precedentAgent_1 = require("../agents/precedentAgent");
 const generateUID_1 = require("../utils/generateUID");
 const auditLogger_1 = require("../utils/auditLogger");
 const gridfs_1 = require("../config/gridfs");
-const pdfParse = require('pdf-parse');
+
 const router = (0, express_1.Router)();
 // POST /api/fir/upload
 // Uploads FIR to GridFS, triggers AI parsing pipeline
@@ -31,7 +31,10 @@ router.post('/upload', auth_1.authenticate, upload_1.upload.single('file'), asyn
     if (!firText) {
         if (file.mimetype === 'application/pdf') {
             try {
-                const pdfData = await pdfParse(file.buffer);
+                const pdfParse = (await import('pdf-parse')) as any; // ✅ FORCE TYPE
+
+                const pdfData = await pdfParse.default(file.buffer); // ✅ CALL DEFAULT
+                
                 firText = pdfData.text;
             }
             catch (e) {
