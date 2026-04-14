@@ -35,7 +35,8 @@ router.post(
     if (!firText) {
       if (file.mimetype === 'application/pdf') {
         try {
-          const pdfParse = (await import('pdf-parse')).default;
+          const { default: pdfParse } = await import('pdf-parse');
+
           const pdfData = await pdfParse(file.buffer);
           
           firText = pdfData.text;
