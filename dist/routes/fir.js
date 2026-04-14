@@ -31,9 +31,9 @@ router.post('/upload', auth_1.authenticate, upload_1.upload.single('file'), asyn
     if (!firText) {
         if (file.mimetype === 'application/pdf') {
             try {
-                const pdfParse = (await import('pdf-parse')) as any; // ✅ FORCE TYPE
+                const { default: pdfParse } = await import('pdf-parse');
 
-                const pdfData = await pdfParse.default(file.buffer); // ✅ CALL DEFAULT
+                const pdfData = await pdfParse(file.buffer);
                 
                 firText = pdfData.text;
             }
